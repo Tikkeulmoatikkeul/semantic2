@@ -1,0 +1,87 @@
+0. openai.InternalServerError
+    🔍 Processing page with length: 9693
+    Traceback (most recent call last):
+    File "c:\Users\박경숙\OneDrive - 이화여자대학교\바탕 화면\NLPTermProject\project1129\UpstageNLP_Team8\rag_upstage\test_main_once.py", line 136, in <module>       
+        main()
+    File "c:\Users\박경숙\OneDrive - 이화여자대학교\바탕 화면\NLPTermProject\project1129\UpstageNLP_Team8\rag_upstage\test_main_once.py", line 47, in main
+        response = query_rag(original_prompt, remaining_prompt)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "c:\Users\박경숙\OneDrive - 이화여자대학교\바탕 화면\NLPTermProject\project1129\UpstageNLP_Team8\rag_upstage\test_main_once.py", line 111, in query_rag      
+        chunks = sem_split_documentsA([split_page], threshold)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "c:\Users\박경숙\OneDrive - 이화여자대학교\바탕 화면\NLPTermProject\project1129\UpstageNLP_Team8\rag_upstage\test_utils.py", line 211, in sem_split_documentsA
+        chunks = sem_text_splitter.split_documents(documents)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "C:\anaconda3\envs\myenv312\Lib\site-packages\langchain_experimental\text_splitter.py", line 295, in split_documents
+        return self.create_documents(texts, metadatas=metadatas)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "C:\anaconda3\envs\myenv312\Lib\site-packages\langchain_experimental\text_splitter.py", line 280, in create_documents
+        for chunk in self.split_text(text):
+                    ^^^^^^^^^^^^^^^^^^^^^
+    File "C:\anaconda3\envs\myenv312\Lib\site-packages\langchain_experimental\text_splitter.py", line 228, in split_text
+        distances, sentences = self._calculate_sentence_distances(single_sentences_list)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "C:\anaconda3\envs\myenv312\Lib\site-packages\langchain_experimental\text_splitter.py", line 203, in _calculate_sentence_distances
+        embeddings = self.embeddings.embed_documents(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "C:\anaconda3\envs\myenv312\Lib\site-packages\langchain_upstage\embeddings.py", line 215, in embed_documents
+        data = self.client.create(input=batch, **params).data
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "C:\anaconda3\envs\myenv312\Lib\site-packages\openai\resources\embeddings.py", line 124, in create
+        return self._post(
+            ^^^^^^^^^^^
+    File "C:\anaconda3\envs\myenv312\Lib\site-packages\openai\_base_client.py", line 1278, in post
+        return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "C:\anaconda3\envs\myenv312\Lib\site-packages\openai\_base_client.py", line 955, in request
+        return self._request(
+            ^^^^^^^^^^^^^^
+    File "C:\anaconda3\envs\myenv312\Lib\site-packages\openai\_base_client.py", line 1044, in _request
+        return self._retry_request(
+            ^^^^^^^^^^^^^^^^^^^^
+    File "C:\anaconda3\envs\myenv312\Lib\site-packages\openai\_base_client.py", line 1093, in _retry_request
+        return self._request(
+            ^^^^^^^^^^^^^^
+    File "C:\anaconda3\envs\myenv312\Lib\site-packages\openai\_base_client.py", line 1044, in _request
+        return self._retry_request(
+            ^^^^^^^^^^^^^^^^^^^^
+    File "C:\anaconda3\envs\myenv312\Lib\site-packages\openai\_base_client.py", line 1093, in _retry_request
+        return self._request(
+            ^^^^^^^^^^^^^^
+    File "C:\anaconda3\envs\myenv312\Lib\site-packages\openai\_base_client.py", line 1059, in _request
+        raise self._make_status_error_from_response(err.response) from None
+    openai.InternalServerError: Error code: 500 - {}
+
+2. chroma-standard deviation
+    wiki에 실패한 질문 개수: 6
+    Final Accuracy: 16.0%
+
+    ###
+    To calculate the volume of O_2 necessary to burn 50 liters of CO completely, we need to use the balanced chemical equation for the combustion of carbon monoxide (CO) with oxygen (O_2) to form carbon dioxide (CO_2) and water (H_2O). The balanced equation is:
+
+    2 CO + O_2 -> 2 CO_2 + H_2O
+
+    From the balanced equation, we can see that 2 moles of CO react with 1 mole of O_2 to produce 2 moles of CO_2. Therefore, to burn 50 liters of CO (assuming it is at standard temperature and pressure), we need:
+
+    (50 liters CO * (1 mole CO / 22.4 liters CO)) * (1 mole O_2 / 2 moles CO) = (50 / 22.4) * (1/2) = 1.16 liters O_2
+
+    Now, to calculate the volume of CO_2 formed, we use the balanced equation:
+
+    (50 liters CO * (1 mole CO / 22.4 liters CO)) * (2 moles CO_2 / 2 moles CO) = (50 / 22.4) * 2 = 23.2 liters CO_2
+
+    So, the volume of O_2 necessary to burn 50 liters of CO completely is 1.16 liters, and the volume of CO_2 formed is 23.2 liters.
+    extraction fail
+
+    -> 계산 결과에 대한 답을 정규식으로 추출하는데 어려움이 있음. 답의 형태가 (A)... 으로 반환되지 않았음
+
+    ###
+    QUESTION33) 교육과정 공동 운영으로 이수할 수 있는 학위는 무엇입니까?
+    (A) 복수학위
+    (B) 단일학위
+    (C) 공동학위
+    (D) A와 C
+
+    정답: (C) 공동학위
+    generated answer: (A), answer: (D)
+
+    -> 처음으로 등장하는(A)을 포착하여 답으로 반환하기 때문에 question 원본이 같이 출력되면 위와 같은 문제가 발생한다.

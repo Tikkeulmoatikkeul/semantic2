@@ -124,3 +124,5 @@ def query_rag(original_prompt:str, remaining_prompt: list):
 
 if __name__ == "__main__":
     main()
+
+

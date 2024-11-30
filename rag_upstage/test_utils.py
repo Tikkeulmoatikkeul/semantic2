@@ -1,6 +1,9 @@
 from langchain_upstage import UpstageEmbeddings
 from dotenv import load_dotenv
 from langchain.schema.document import Document
+from langchain.prompts import ChatPromptTemplate
+from langchain.prompts import PromptTemplate
+from langchain_upstage import ChatUpstage
 from langchain_experimental.text_splitter import SemanticChunker
 from langchain_community.document_loaders.pdf import PyPDFDirectoryLoader
 import pandas as pd
@@ -186,6 +189,47 @@ def sem_split_documents(documents: list[Document], threshold: str) -> list[Docum
             final_chunks.append(chunk)
 
     return final_chunks
+
+
+def extract_question_keywords(question):
+    llm = ChatUpstage(api_key=upstage_api_key, model="solar-1-mini-chat")
+
+    # 프롬프트 템플릿 정의
+    prompt_template = PromptTemplate.from_template(
+        """
+        You are a question analyzer. For the following multiple-choice question, perform the following tasks:
+        
+        1. Identify the problem type (e.g., "Math", "General Knowledge", "Legal", etc.).
+        2. Extract the core question being asked.
+        3. Extract 3-5 relevant keywords (each no more than 3 words) to answer the question effectively.
+
+        Provide the output in JSON format:
+        {{
+            "problem_type": "[problem type]",
+            "core_question": "[core question]",
+            "keywords": ["keyword1", "keyword2", "keyword3", ...]
+        }}
+
+        ---
+        Question:
+        {question_text}
+        """
+    )
+
+    # 체인 생성
+    chain = prompt_template | llm
+    results = []
+    input_dict = {"question_text": question}
+    response = chain.invoke(input_dict).content.strip()
+
+    try:
+        # 응답을 딕셔너리로 변환
+            result_dict = eval(response)  # JSON 형식으로 변환
+            results.append(result_dict)
+    except Exception as e:
+        print(f"Error parsing response for prompt: {question}\nError: {e}")
+
+    return results
 
 
 def fetch_wiki_page2(keywords, lang='en'):
