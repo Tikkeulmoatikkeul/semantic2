@@ -6,7 +6,7 @@ import yaml
 from dotenv import load_dotenv
 from langchain.schema.document import Document
 from langchain_experimental.text_splitter import SemanticChunker
-from langchain_community.document_loaders.pdf import PyPDFDirectoryLoader
+from langchain_community.document_loaders.pdf import PyPDFLoader
 from langchain_upstage import UpstageEmbeddings
 from langchain_community.vectorstores.chroma import Chroma
 # from langchain_chroma import Chroma
@@ -39,11 +39,14 @@ def main():
     if args.reset:
         print("✨ Clearing Database")
         clear_database()
-
-    # Create (or update) the data store.
-    documents = load_pdf(data_path)
-    chunks = sem_split_documents2(documents,threshold)
-    add_to_chroma(chunks)
+        
+    for file_name in os.listdir(data_path):
+        file_path = data_path+file_name
+        # Create (or update) the data store.
+        documents = load_pdf(file_path)
+        chunks = sem_split_documents2(documents,threshold)
+        add_to_chroma(chunks)
+        print(f"문서 {file_name}을 데이터베이스 chroma({threshold})에 추가")
 
 
 def add_to_chroma(chunks: list[Document]):
