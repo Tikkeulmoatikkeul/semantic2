@@ -5,7 +5,7 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.prompts import PromptTemplate
 from langchain_upstage import ChatUpstage
 from langchain_experimental.text_splitter import SemanticChunker
-from langchain_community.document_loaders.pdf import PyPDFDirectoryLoader
+from langchain_community.document_loaders.pdf import PyPDFLoader
 import pandas as pd
 import wikipediaapi
 import re
@@ -20,7 +20,7 @@ user_agent = os.environ['USER_AGENT']
 
 
 def load_pdf(data_path):
-    pdf_loader = PyPDFDirectoryLoader(data_path)
+    pdf_loader = PyPDFLoader(data_path)
     documents = pdf_loader.load()
     return documents
 
