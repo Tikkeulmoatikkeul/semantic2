@@ -1,0 +1,35 @@
+CHROMA_PATH : "./chroma" # path to chroma database  
+CHROMA_PATH(percentile) : "./chroma(percentile)"
+CHROMA_PATH(standard_deviation) : "./chroma(standard_deviation)"
+CHROMA_PATH(interquartile) : "./chroma(interquartile)"
+CHROMA_PATH(gradient) : "./chroma(gradient)"
+TEST_PATH: "./test_data/test_samples.csv" # path for test file
+DATA_PATH: "./data" # path for pdf files
+
+# template for prompt without wikipedia search
+PROMPT_TEMPLATE: |
+  Now, answer the following question based on the provided context.
+  Let's think step by step to find the most accurate answer.
+  Select the answer from the options below.
+  If the answer is not present in the context, write 'The information is not present in the context.'
+  ---
+  Q: {question}
+  ---
+  Context: {context}
+  ---
+  Options: {options}
+  
+
+# template for prompt with wikipedia search
+PROMPT_TEMPLATE_WIKI: |
+  Now, answer the following question based on the provided context.
+  Let's think step by step to find the most accurate answer.
+  Select the answer from the options below.
+  ---
+  Q: {question}
+  ---
+  Context: {context}
+  ---
+  Options: {options}
+  
+  

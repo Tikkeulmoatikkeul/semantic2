@@ -86,7 +86,7 @@ def extract_question_keywords(question):
         
         1. Identify the problem type (e.g., "Math", "General Knowledge", "Legal", etc.).
         2. Extract the core question being asked.
-        3. Extract the most relevant keywords for search (3-5 keywords) to answer the question effectively.
+        3. Extract 3-5 relevant keywords (each no more than 3 words) to answer the question effectively.
 
         Provide the output in JSON format:
         {{
